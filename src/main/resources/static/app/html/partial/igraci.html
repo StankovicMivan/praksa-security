@@ -1,0 +1,114 @@
+<div ng-controller="IgraciCtrl">
+
+
+	<div class="page-header">
+		<h1>Igraci</h1>
+	</div>
+
+	<form>
+		<div class="form-group">
+			<label for="ime">Ime</label> <input class="form-control" id="naziv"
+				ng-model="noviIgrac.ime" placeholder="ime">
+		</div>
+		<div class="form-group">
+			<label for="prezime">Prezime</label> <input class="form-control"
+				id="prezime" ng-model="noviIgrac.prezime" placeholder="prezime">
+		</div>
+		<div class="form-group">
+			<label for="pozicija">Pozicija</label> <input class="form-control"
+				id="pozicija" ng-model="noviIgrac.pozicija" placeholder="pozicija">
+		</div>
+
+		<div class="form-group">
+			<label for="takmicenja">Klubovi</label> <select class="form-control"
+				id="klubId" ng-model="noviIgrac.klubId">
+				<option ng-repeat="k in klubovi" value="{{k.id}}">
+					{{k.naziv}}</option>
+			</select>
+		</div>
+		<button class="btn btn-primary" ng-click="dodaj()">Dodaj</button>
+
+	</form>
+	<form>
+
+		<div ng-show="prikazi">
+			<div class="form-group">
+				<label for="klubid">Klub</label> <select class="form-control"
+					id="klubid" ng-model="pPretrage.klubid">
+					<option ng-repeat="k in klubovi" value="{{k.id}}">
+						{{k.naziv}}</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="ime">Ime</label> <input ng-model="pPretrage.ime"
+					class="form-control" id="ime">
+			</div>
+
+
+			<div class="form-group">
+				<label for="prezime">Prezime</label> <input
+					ng-model="pPretrage.prezime" class="form-control" id="prezime">
+			</div>
+
+
+			<div class="form-group">
+				<label for="pozicija">Pozicija</label> <input
+					ng-model="pPretrage.pozicija" class="form-control" id="pozicija">
+			</div>
+		</div>
+		<button ng-click="pretraga()" class="btn btn-primary">Pretraži</button>
+	</form>
+
+	<div>
+
+		<div>
+			<div class="pull-left">
+				<label for="prikaz">Prikaz po strani</label> 
+				<select class="form-control" ng-change="pretraga2()" value="4" id="prikaz" ng-model="pPretrage.pPoStrani">
+					<option >2</option>
+					<option >4</option>
+					<option >6</option>
+					<option >8</option>
+					<option >10</option>
+				</select>
+
+			</div>
+
+			<div class="btn-group pull-right">
+
+				<div class="pull-right">
+					<button ng-disabled="pageNum == 0" ng-click="go(-1)"
+						class="btn btn-primary">Prethodna</button>
+					<button ng-disabled="pageNum == totalPages - 1" ng-click="go(1)"
+						class="btn btn-primary">Sledeća</button>
+				</div>
+
+			</div>
+		</div>
+
+
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>Ime</th>
+					<th>Prezime</th>
+					<th>Pozicija</th>
+					<th>Klub</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="i in igraci">
+					<td>{{i.ime}}</td>
+					<td>{{i.prezime}}</td>
+					<td>{{i.pozicija}}</td>
+					<td>{{i.klubNaziv}}</td>
+					<td>
+						<button class="btn btn-danger" ng-click="delete(i.id)">Obriši</button>
+						<button class="btn btn-warning" ng-click="goToEdit(i.id)">Izmeni</button>
+
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
