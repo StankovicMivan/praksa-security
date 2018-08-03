@@ -39,9 +39,12 @@
 						 <li><a href="/#!/igraci">Igraci</a></li>
        						<li>
    							<#if currentUser.role == "ADMIN">
-       								 <li>
-       								 	<a href="/users">List svih korisnika</a>
-       								 </li>
+       							<li>
+        							<a href="/user/${currentUser.id}">Moj nalog</a>
+        						</li>
+       							 <li>
+       							 	<a href="/users">List svih korisnika</a>
+       							</li>
         					
     						</#if>
     						<#if currentUser.role == "USER">

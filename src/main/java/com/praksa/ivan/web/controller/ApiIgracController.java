@@ -1,6 +1,9 @@
 package com.praksa.ivan.web.controller;
 
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -9,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,13 +21,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.praksa.ivan.domain.UserCreateForm;
+import com.praksa.ivan.model.Igrac;
 import com.praksa.ivan.service.IgracService;
 import com.praksa.ivan.support.IgracDTOToIgrac;
 import com.praksa.ivan.support.IgracToIgracDTO;
 import com.praksa.ivan.web.dto.IgracDTO;
-import com.praksa.ivan.domain.UserCreateForm;
-import com.praksa.ivan.model.Igrac;
 
 
 @RestController
@@ -73,10 +78,42 @@ public class ApiIgracController {
 
 		return new ResponseEntity<>(toDTO.convert(igrac), HttpStatus.OK);
 	}
-	//dodaj novog
-	@PreAuthorize("hasAuthority('ADMIN')")
-	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<IgracDTO> add(@ModelAttribute("noviIgrac")  @RequestBody IgracDTO noviIgrac){
+	
+//	 @RequestMapping(value = "/igrac/create", method = RequestMethod.GET)
+//	    public ModelAndView getUserCreatePage() {
+////	        LOGGER.debug("Getting igrac create form");
+//	        return new ModelAndView("igrac", "noviIgrac", new IgracDTO());
+//	    }
+//	
+	
+	
+	
+//	//dodaj novog
+//	@PreAuthorize("hasAuthority('ADMIN')")
+//	@RequestMapping(value = "/igrac/create", method = RequestMethod.POST)
+//    public String handleUserCreateForm(@Valid @ModelAttribute("noviIgrac") IgracDTO noviIgrac, BindingResult bindingResult) {
+////        LOGGER.debug("Processing user create form={}, bindingResult={}", noviIgrac, bindingResult);
+//        if (bindingResult.hasErrors()) {
+//            // failed validation
+//            return "igrac";
+//        }
+//        try {
+//        	Igrac igrac = toIgrac.convert(noviIgrac); 
+//            igracService.save(igrac);
+//        } catch (DataIntegrityViolationException e) {
+////            LOGGER.warn("Exail", e);
+////            bindingResult.reject("email.exists", "Email already exists");
+//            return "igrac";
+//        }
+//        // ok, redirect
+//        return "redirect:/#!/";
+//    }
+//	
+//	
+//	
+	
+		@RequestMapping(method=RequestMethod.POST)
+	public ResponseEntity<IgracDTO> add(@Valid @ModelAttribute("noviIgrac") IgracDTO noviIgrac, BindingResult bindingResult){
 		
 		Igrac igrac = toIgrac.convert(noviIgrac); 
 		
@@ -85,7 +122,8 @@ public class ApiIgracController {
 		return new ResponseEntity<>(toDTO.convert(igrac), HttpStatus.CREATED);
 	}
 	//izmeni
-	 @PreAuthorize("hasAuthority('ADMIN')")
+	
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(method=RequestMethod.PUT,value="/{id}")
 	public ResponseEntity<IgracDTO> edit(
 			@PathVariable Long id,
