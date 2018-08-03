@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -72,6 +72,7 @@ public class ApiIgracController {
 		return new ResponseEntity<>(toDTO.convert(igrac), HttpStatus.OK);
 	}
 	//dodaj novog
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<IgracDTO> add(@RequestBody IgracDTO noviIgrac){
 		
@@ -82,7 +83,7 @@ public class ApiIgracController {
 		return new ResponseEntity<>(toDTO.convert(igrac), HttpStatus.CREATED);
 	}
 	//izmeni
-	
+	 @PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(method=RequestMethod.PUT,value="/{id}")
 	public ResponseEntity<IgracDTO> edit(
 			@PathVariable Long id,
