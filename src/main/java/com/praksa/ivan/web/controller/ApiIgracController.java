@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import com.praksa.ivan.service.IgracService;
 import com.praksa.ivan.support.IgracDTOToIgrac;
 import com.praksa.ivan.support.IgracToIgracDTO;
 import com.praksa.ivan.web.dto.IgracDTO;
+import com.praksa.ivan.domain.UserCreateForm;
 import com.praksa.ivan.model.Igrac;
 
 
@@ -74,7 +76,7 @@ public class ApiIgracController {
 	//dodaj novog
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<IgracDTO> add(@RequestBody IgracDTO noviIgrac){
+	public ResponseEntity<IgracDTO> add(@ModelAttribute("noviIgrac")  @RequestBody IgracDTO noviIgrac){
 		
 		Igrac igrac = toIgrac.convert(noviIgrac); 
 		

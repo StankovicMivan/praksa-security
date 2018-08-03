@@ -18,7 +18,7 @@
     <title>Home page</title>
 </head>
 <body>
-<nav role="navigation">
+
 <div ng-app="praksa">
 			
 			<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -27,17 +27,28 @@
 						<a class="navbar-brand" href="/#!/">Ivan</a>
 					</div>
 					<ul class="nav navbar-nav">
-						<li><a href="/#!/igraci">Igraci</a></li>
 						<#if !currentUser??>
-							<li>
-								<div class="pull-right">
-									<a href="/login">Log in</a>
-									<a href="/user/create">Registracija</a>
-								</div>
+								
+							<li class="pull-right">
+									<a class="navbar-brand" href="/login">Log in</a>
+									<a class="navbar-brand" href="/user/create">Registracija</a>
 							</li>
+							
    						</#if>
    						<#if currentUser??>
+						 <li><a href="/#!/igraci">Igraci</a></li>
        						<li>
+   							<#if currentUser.role == "ADMIN">
+       								 <li>
+       								 	<a href="/users">List svih korisnika</a>
+       								 </li>
+        					
+    						</#if>
+    						<#if currentUser.role == "USER">
+       							<li>
+        							<a href="/user/${currentUser.id}">Moj nalog</a>
+        						</li>
+    						</#if>
        						<div class="pull-right">
 								
             					<form action="/logout" method="post">
@@ -46,9 +57,7 @@
          						</form>
          					</div>
        						</li>
-        					<li>
-        						<a href="/user/${currentUser.id}">Moj nalog</a>
-        					</li>
+       				
     					</#if>
 					</ul>
 				</div>
@@ -59,26 +68,11 @@
 			<div class="container" ng-view>
 			
 			</div>
-		</div>
-    <ul>
-   
-    <#if currentUser??>
-        <li>
-            <form action="/logout" method="post">
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                <button type="submit">Log out</button>
-            </form>
-        </li>
-        <li><a href="/user/${currentUser.id}">View myself</a></li>
-    </#if>
-    <#if currentUser?? && currentUser.role == "ADMIN">
-       
-        <li><a href="/users">View all users</a></li>
-    </#if>
-    </ul>
-     <#if currentUser?? && currentUser.role == "ADMIN">
-       
-    </#if>
-</nav>
+	
+  	</div>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="/assets/js/bootstrap.js"></script>
+  
+
 </body>
 </html>
